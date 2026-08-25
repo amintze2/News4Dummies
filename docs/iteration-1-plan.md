@@ -7,7 +7,7 @@
 
 ## Requirements & Acceptance Criteria
 
-### Requirement 1 — Name-Based Login
+### Requirement 1 — Name-Based Login (#7)
 
 **Description:** On open, the user picks or types a name. All data in the app is scoped to that user. No password, no email.
 
@@ -19,7 +19,7 @@
   - [ ] Feed, My Articles, and Learn only ever show data belonging to the logged-in user
   - [ ] Reloading mid-session does not log the user out
 
-### Requirement 2 — PWA Shell & Three-Tab Navigation
+### Requirement 2 — PWA Shell & Three-Tab Navigation (#8)
 
 **Description:** An installable Progressive Web App with a bottom tab bar for What's New, My Articles, and Learn.
 
@@ -32,7 +32,7 @@
   - [ ] Safe-area insets respected on iPhone (no content under the home indicator or notch)
   - [ ] Learn tab renders a placeholder "Coming in Iteration 2" state rather than erroring
 
-### Requirement 3 — What's New Feed (RSS Aggregation)
+### Requirement 3 — What's New Feed (RSS Aggregation) (#9)
 
 **Description:** A scrollable feed of headlines and summaries aggregated from AP, Reuters, NPR, and BBC RSS.
 
@@ -46,7 +46,7 @@
   - [ ] Empty and loading states are designed, not blank screens
   - [ ] Feed items whose URL already exists in My Articles are visually marked as saved
 
-### Requirement 4 — Article Loading (Seed Script & Dev Paste Form)
+### Requirement 4 — Article Loading (Seed Script & Dev Paste Form) (#10)
 
 **Description:** With Shortcut ingestion deferred to Iteration 2, Iteration 1 still needs real article text in the database so My Articles and Reading Mode can be built, tested, and demoed. Two paths: a repeatable seed script, and a temporary in-app form that accepts pasted text.
 
@@ -63,7 +63,7 @@
   - [ ] The form is reachable but clearly marked as temporary — it is removed or hidden once R7 ships in Iteration 2
   - [ ] Pasted and seeded articles are indistinguishable to the rest of the app
 
-### Requirement 5 — My Articles Collection View
+### Requirement 5 — My Articles Collection View (#11)
 
 **Description:** A list of every article the user has full text for, most recently added first.
 
@@ -76,7 +76,7 @@
   - [ ] Empty state points the user at the dev "Add article" form (rewritten to describe the Shortcut once Iteration 2 ships)
   - [ ] New articles appear without a manual refresh if the app is open (Supabase realtime or poll on focus)
 
-### Requirement 6 — Reading Mode
+### Requirement 6 — Reading Mode (#12)
 
 **Description:** Read the full article text inside the app, in a clean typographic layout.
 
@@ -130,13 +130,18 @@ On content: publicly accessible is not the same as freely reproducible. RSS aggr
 
 ### Responsibilities
 
-| Area | Owner |
-|---|---|
-| Supabase schema, RSS Edge Function, seed script, shared insert path | @annamintzer |
-| PWA shell, tab navigation, article card component, Reading Mode | @lucy |
-| Name login, dev paste form, My Articles collection view | pair |
+Split by feature issue, chosen for an even-ish mix of backend and frontend work on each side rather than grouping all backend work with one person:
 
-Handles above are placeholders — confirm Lucy's actual GitHub username before creating issues.
+| Feature | Owner | Supporting |
+|---|---|---|
+| R1 Name-Based Login (#7) | @amintze2 | @lmalmud |
+| R2 PWA Shell & Navigation (#8) | @amintze2 | @lmalmud |
+| R3 What's New Feed (#9) | @lmalmud | @amintze2 |
+| R4 Article Loading (#10) | @amintze2 | @lmalmud |
+| R5 My Articles Collection View (#11) | @lmalmud | @amintze2 |
+| R6 Reading Mode (#12) | @lmalmud | @amintze2 |
+
+Anna's set (R1, R2, R4) pairs a small mixed feature, a frontend-heavy one, and a backend-heavy one. Lucy's set (R3, R5, R6) is anchored by R3's real backend work (the RSS Edge Function) alongside two frontend-heavier features. Individual task assignees within each feature follow whoever's doing that specific piece of work — see the Task Breakdown table — and don't always match the feature owner.
 
 ### Dependencies
 
@@ -154,24 +159,24 @@ Handles above are placeholders — confirm Lucy's actual GitHub username before 
 
 ## Task Breakdown
 
-| # | Task | Type | Assignee(s) | Requirement |
-|---|---|---|---|---|
-| 1 | Provision Supabase project, create Iteration 1 schema + RLS policies | task | @annamintzer | R1, R3, R4 |
-| 2 | Scaffold Vite + React + TS + Tailwind + shadcn, deploy to GitHub Pages | task | @lucy | R2 |
-| 3 | PWA manifest, icons, service worker, iOS safe-area handling | feature | @lucy | R2 |
-| 4 | Bottom tab bar navigation with three tabs and route persistence | feature | @lucy | R2 |
-| 5 | Name login screen, user create-or-reuse, localStorage session, switch user | feature | pair | R1 |
-| 6 | Edge Function: RSS fetch + parse + cache for AP, Reuters, NPR, BBC | feature | @annamintzer | R3 |
-| 7 | Shared article card component | task | @lucy | R3, R5 |
-| 8 | What's New feed: list, pull-to-refresh, open in Safari, empty/loading states | feature | @lucy | R3 |
-| 9 | Shared `createArticle` insert path with normalization and URL upsert | task | @annamintzer | R4 |
-| 10 | Curate fixture file (hand-copied, not fetched) + seed script to insert it, idempotent | task | @annamintzer | R4 |
-| 11 | Dev-only "Add article" paste form | feature | pair | R4 |
-| 12 | My Articles collection view with delete and empty state | feature | pair | R5 |
-| 13 | Spike: can an iOS Shortcut extract full body text from all four sources? | task | @annamintzer | R4, de-risks I2 |
-| 14 | Reading Mode: typography, scroll restore, top panel, original-article link | feature | @lucy | R6 |
+| # | Issue | Task | Type | Assignee(s) | Requirement | Parent |
+|---|---|---|---|---|---|---|
+| 1 | #13 | Provision Supabase project, create Iteration 1 schema + RLS policies | task | @amintze2 | R1, R3, R4 | #7 |
+| 2 | #14 | Scaffold Vite + React + TS + Tailwind + shadcn, deploy to GitHub Pages | task | @lmalmud | R2 | #8 |
+| 3 | #15 | PWA manifest, icons, service worker, iOS safe-area handling | task | @lmalmud | R2 | #8 |
+| 4 | #16 | Bottom tab bar navigation with three tabs and route persistence | task | @lmalmud | R2 | #8 |
+| 5 | #17 | Name login screen, user create-or-reuse, localStorage session, switch user | task | @amintze2, @lmalmud | R1 | #7 |
+| 6 | #18 | Edge Function: RSS fetch + parse + cache for AP, Reuters, NPR, BBC | task | @amintze2 | R3 | #9 |
+| 7 | #19 | Shared article card component | task | @lmalmud | R3, R5 | #9 |
+| 8 | #20 | What's New feed: list, pull-to-refresh, open in Safari, empty/loading states | task | @lmalmud | R3 | #9 |
+| 9 | #21 | Shared `createArticle` insert path with normalization and URL upsert | task | @amintze2 | R4 | #10 |
+| 10 | #22 | Curate fixture file (hand-copied, not fetched) + seed script to insert it, idempotent | task | @amintze2 | R4 | #10 |
+| 11 | #23 | Dev-only "Add article" paste form | task | @amintze2, @lmalmud | R4 | #10 |
+| 12 | #24 | My Articles collection view with delete and empty state | task | @lmalmud, @amintze2 | R5 | #11 |
+| 13 | #25 | Spike: can an iOS Shortcut extract full body text from all four sources? | task | @amintze2 | R4, de-risks I2 | #10 |
+| 14 | #26 | Reading Mode: typography, scroll restore, top panel, original-article link | task | @lmalmud | R6 | #12 |
 
-Issue numbers to be filled in once the issues are created.
+All 6 requirements are tracked as feature issues (#7–#12) with these 14 tasks linked as GitHub sub-issues. Milestone: Iteration 1.
 
 ## Definition of Done for Iteration 1
 
