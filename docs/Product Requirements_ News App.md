@@ -98,27 +98,44 @@ Usability
 
 #### Iteration 1
 
-Dates:   
-Goal:  
+Dates: TBD
+Goal: Prove the ingestion pipeline end-to-end — discover a headline in the app, open it in Safari, push it back via the iOS Shortcut, and read it in the app.
+Full plan: [docs/iteration-1-plan.md](./iteration-1-plan.md)
+
 Must-Have Features:
 
-* 
+* Name-based login, scoped per user
+* Installable PWA shell with What's New / My Articles / Learn tabs
+* What's New feed aggregating AP, Reuters, NPR, and BBC RSS
+* Article ingestion endpoint + the iOS Shortcut that feeds it
+* My Articles collection view, newest first
+* Reading Mode (plain reading, no interactivity yet)
 
 Nice-to-Have Features:
 
-*  
+* Seed script for sample articles
+* Saved-state marker on feed items already ingested
 
 #### Iteration 2
 
-Dates:   
-Goal:  
+Dates: TBD
+Goal: Turn the reader into the product — interactive highlighting, AI explanation, and an FSRS-backed Learn tab.
+Full plan: [docs/iteration-2-plan.md](./iteration-2-plan.md)
+
 Must-Have Features:
 
-* 
+* Interactive Mode: freeze + drag-to-highlight with an action bar
+* AI Explain on a selection
+* AI Chat scoped to a selection
+* Double-tap Define, with every defined word saved to the Word Bank
+* Add to Study Set (existing or newly created set)
+* Learn: FSRS flashcard review
+* Custom tags and filtering by tag, source, or journalist
 
 Nice-to-Have Features:
 
-*  
+* Promote a Word Bank entry into a study set card
+* Per-set due counts in the Learn tab
 
 #### Iteration 3
 
