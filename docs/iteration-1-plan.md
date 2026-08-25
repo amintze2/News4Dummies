@@ -50,8 +50,11 @@
 
 **Description:** With Shortcut ingestion deferred to Iteration 2, Iteration 1 still needs real article text in the database so My Articles and Reading Mode can be built, tested, and demoed. Two paths: a repeatable seed script, and a temporary in-app form that accepts pasted text.
 
+**Not scraping.** Neither path fetches or parses pages from AP/Reuters/NPR/BBC programmatically. Seed content is hand-curated: Anna and Lucy each read an article normally in their browser, copy the text (same personal, non-commercial use the Shortcut performs in Iteration 2), and save it into a local fixture file the seed script inserts verbatim. This matters because AP and Reuters both restrict automated reproduction of their content in their terms of service, and because "in-app article scraping" is explicitly deferred out of scope for this product (see Iteration 2's deferred list) — a scraping seed script would quietly build the deferred feature under a different name.
+
 - **Acceptance Criteria:**
-  - [ ] A seed script inserts at least six real articles spanning all four sources, including at least one over 3,000 words and one under 400
+  - [ ] A fixture file (`seed/articles.json` or similar) holds six hand-curated real articles spanning all four sources, including at least one over 3,000 words and one under 400, copied by hand from pages actually read in-browser — not fetched by any script
+  - [ ] The seed script only reads that fixture and inserts it; it makes no outbound HTTP requests to AP/Reuters/NPR/BBC
   - [ ] Seeded articles are attributed to a named user, so per-user scoping is genuinely exercised
   - [ ] Re-running the seed script is idempotent — no duplicate rows
   - [ ] A dev-only "Add article" form accepts title, URL, source, author, publish date, and pasted body text
@@ -114,7 +117,7 @@ The seed script and the dev paste form must both call one `createArticle({ userI
 
 Body text normalization happens **here, once**, at insert. Iteration 2 anchors highlights to character offsets in the stored `body_text`, so this normalization is effectively a stable contract from now on — changing it later invalidates stored highlights.
 
-### Security Decision (read this one)
+### Security & Content Decisions (read this one)
 
 The PRD asks for name-only login **and** "#no data leaks". Those are in tension. Our decision for Iteration 1:
 
@@ -122,6 +125,8 @@ The PRD asks for name-only login **and** "#no data leaks". Those are in tension.
 - Row Level Security is enabled on all tables, but the anon-key policies are permissive by necessity given there's no real auth.
 - The dev paste form is unauthenticated and writes to the database. It is acceptable only because it is temporary and the deployment is effectively unknown to anyone but us — it must be removed when Iteration 2's real ingest endpoint lands, not left in place.
 - **Acceptable because** the user set is two people and the content is public news articles. If we ever add a third-party user or store anything personal, this must be revisited before that happens. Noted here so we don't forget we made this trade deliberately.
+
+On content: publicly accessible is not the same as freely reproducible. RSS aggregation (R3) is fine — these outlets publish RSS specifically to be aggregated, and it carries only headline/summary/link, never full text. Seed data (R4) is different: it needs full article bodies, and getting those by writing a script that fetches and parses AP/Reuters/NPR/BBC pages would be scraping their sites' content wholesale, which their terms of service restrict (AP and Reuters especially) — and would just be the deferred "in-app scraping" feature built early under a different name. R4's fixture file is hand-copied from articles read normally in-browser instead, for exactly the reason the Shortcut model works in Iteration 2: a human reading one article at a time and choosing to save it is a different act, legally and ethically, from a server bulk-fetching a publisher's content.
 
 ### Responsibilities
 
@@ -160,7 +165,7 @@ Handles above are placeholders — confirm Lucy's actual GitHub username before 
 | 7 | Shared article card component | task | @lucy | R3, R5 |
 | 8 | What's New feed: list, pull-to-refresh, open in Safari, empty/loading states | feature | @lucy | R3 |
 | 9 | Shared `createArticle` insert path with normalization and URL upsert | task | @annamintzer | R4 |
-| 10 | Seed script: six real articles across four sources, idempotent | task | @annamintzer | R4 |
+| 10 | Curate fixture file (hand-copied, not fetched) + seed script to insert it, idempotent | task | @annamintzer | R4 |
 | 11 | Dev-only "Add article" paste form | feature | pair | R4 |
 | 12 | My Articles collection view with delete and empty state | feature | pair | R5 |
 | 13 | Spike: can an iOS Shortcut extract full body text from all four sources? | task | @annamintzer | R4, de-risks I2 |
