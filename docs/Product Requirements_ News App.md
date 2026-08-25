@@ -99,7 +99,7 @@ Usability
 #### Iteration 1
 
 Dates: TBD
-Goal: Prove the ingestion pipeline end-to-end — discover a headline in the app, open it in Safari, push it back via the iOS Shortcut, and read it in the app.
+Goal: Build the whole reading experience on seeded content — login, feed, collection, and Reading Mode — so Iteration 2 only has to connect the pipe and make the text interactive.
 Full plan: [docs/iteration-1-plan.md](./iteration-1-plan.md)
 
 Must-Have Features:
@@ -107,23 +107,24 @@ Must-Have Features:
 * Name-based login, scoped per user
 * Installable PWA shell with What's New / My Articles / Learn tabs
 * What's New feed aggregating AP, Reuters, NPR, and BBC RSS
-* Article ingestion endpoint + the iOS Shortcut that feeds it
+* Article loading: seed script + a temporary dev paste form, over one shared insert path
 * My Articles collection view, newest first
 * Reading Mode (plain reading, no interactivity yet)
 
 Nice-to-Have Features:
 
-* Seed script for sample articles
-* Saved-state marker on feed items already ingested
+* Spike answering whether an iOS Shortcut can extract clean body text from all four sources
+* Saved-state marker on feed items already in My Articles
 
 #### Iteration 2
 
 Dates: TBD
-Goal: Turn the reader into the product — interactive highlighting, AI explanation, and an FSRS-backed Learn tab.
+Goal: Connect the pipe and make the text interactive — Shortcut ingestion, highlighting, AI explanation, and an FSRS-backed Learn tab.
 Full plan: [docs/iteration-2-plan.md](./iteration-2-plan.md)
 
 Must-Have Features:
 
+* Article ingestion endpoint + the iOS Shortcut that feeds it
 * Interactive Mode: freeze + drag-to-highlight with an action bar
 * AI Explain on a selection
 * AI Chat scoped to a selection
